@@ -1,2 +1,4 @@
-package org.example.string;public class Quiz5 {
+package org.example.string;
+
+public class Quiz5 {
 }
