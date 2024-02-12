@@ -1,4 +1,4 @@
-package org.example.string;
+package org.example.chapter1_string;
 /*
 
 숫자만 추출

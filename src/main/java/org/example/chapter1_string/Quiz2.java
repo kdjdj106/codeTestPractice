@@ -1,4 +1,4 @@
-package org.example.string;
+package org.example.chapter1_string;
 
 /*2. 대소문자 변환
         설명

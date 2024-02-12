@@ -1,4 +1,4 @@
-package org.example.twoPointer_SlidingWindow;
+package org.example.chapter2_twoPointer_SlidingWindow;
 /*
 
 두 배열 합치기
