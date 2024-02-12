@@ -20,7 +20,7 @@ K번째 큰 수
         143
 */
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Quiz5 {
     public static void main(String[] args) {
@@ -28,6 +28,26 @@ public class Quiz5 {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int m = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        int answer = -1;
+        int cnt =0;
+        TreeSet<Integer> set = new TreeSet<>(Collections.reverseOrder());
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                for (int l = j + 1; l < n; l++) {
+                    set.add(arr[i] + arr[j] + arr[l]);
+                }
+            }
+        }
+        for(int x : set){
+            //System.out.println(x);
+            cnt++;
+            if(cnt==m) answer = x;
+        }
+        System.out.println(answer);
 
     }
 }
