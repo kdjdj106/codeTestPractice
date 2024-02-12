@@ -1,4 +1,4 @@
-package org.example.chapter_4.HashMap_HashSet_TreeSet;
+package org.example.chapter4.HashMap_HashSet_TreeSet;
 /*
 
 모든 아나그램 찾기(해쉬, 투포인터, 슬라이딩 윈도우)

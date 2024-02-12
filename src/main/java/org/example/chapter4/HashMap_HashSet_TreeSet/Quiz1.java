@@ -1,4 +1,4 @@
-package org.example.chapter_4.HashMap_HashSet_TreeSet;
+package org.example.chapter4.HashMap_HashSet_TreeSet;
 /*
 
 학급 회장(해쉬)
