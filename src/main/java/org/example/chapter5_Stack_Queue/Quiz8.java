@@ -32,6 +32,8 @@ package org.example.chapter5_Stack_Queue;
         4
 */
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class Quiz8 {
@@ -42,6 +44,37 @@ public class Quiz8 {
         int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
+        }
+        Queue<Patient> patientQueue = new LinkedList<>();
+        for (int i = 0; i < arr.length; i++) {
+            patientQueue.offer(new Patient(i, arr[i]));
+        }
+        int answer = 0;
+        while (!patientQueue.isEmpty()) {
+            Patient tmpPatient = patientQueue.poll();
+            for (Patient patient : patientQueue) {
+                if (patient.priority > tmpPatient.priority) {
+                    patientQueue.offer(tmpPatient);
+                    tmpPatient = null;
+                    break;
+                }
+            }
+            if (tmpPatient != null){
+                answer++;
+                if (tmpPatient.patientNumber == m) System.out.println(answer);
+            }
+
+        }
+    }
+
+
+    static class Patient {
+        int patientNumber;
+        int priority;
+
+        public Patient(int patientNumber, int priority) {
+            this.patientNumber = patientNumber;
+            this.priority = priority;
         }
     }
 }
