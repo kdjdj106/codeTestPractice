@@ -41,14 +41,15 @@ public class Quiz2 {
             map1.put(c, map1.getOrDefault(c, 0) + 1);
         }
         for (char c : s2.toCharArray()) {
-            map2.put(c, map2.getOrDefault(c, 0) + 1);
+//            map2.put(c, map2.getOrDefault(c, 0) + 1);
+            if (map1.get(c) == 0) break;
         }
-        for (char c : map2.keySet()) {
-            if (map1.get(c) != map2.get(c)) {
-                answer = "NO";
-                break;
-            }
-        }
+//        for (char c : map2.keySet()) {
+//            if (map1.get(c) != map2.get(c)) {
+//                answer = "NO";
+//                break;
+//            }
+//        }
         System.out.println(answer);
     }
 }

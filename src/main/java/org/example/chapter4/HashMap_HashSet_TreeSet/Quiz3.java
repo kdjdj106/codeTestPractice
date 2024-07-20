@@ -28,6 +28,7 @@ package org.example.chapter4.HashMap_HashSet_TreeSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Quiz3 {
@@ -39,24 +40,26 @@ public class Quiz3 {
         for (int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
         }
+
         ArrayList<Integer> answer = new ArrayList<>();
         HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < m; i++) {
-            map.put(arr[i], map.getOrDefault(arr[i], 0)+1);
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
         }
         answer.add(map.size());
-        int lt=0;
+        int lt = 0;
         for (int rt = m; rt < n; rt++) {
-            map.put(arr[rt], map.getOrDefault(arr[rt], 0)+1);
-            map.put(arr[lt], map.get(arr[lt])-1);
-            if (map.get(arr[lt]) == 0){
+            map.put(arr[rt], map.getOrDefault(arr[rt], 0) + 1);
+            map.put(arr[lt], map.get(arr[lt]) - 1);
+            if (map.get(arr[lt]) == 0) {
                 map.remove(arr[lt]);
             }
             answer.add(map.size());
             lt++;
         }
-        for (int i : answer){
-            System.out.print(i+" ");
+        for (int i : answer) {
+            System.out.print(i + " ");
         }
+
     }
 }
