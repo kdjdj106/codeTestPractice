@@ -1,8 +1,13 @@
 package org.beakJoon;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 /*
  입력
@@ -58,59 +63,74 @@ public class Test6593 {
     static int[] dy = {0, 1, 0, -1, 0, 0};
     static int[] dh = {0, 0, 0, 0, 1, -1};
     static Queue<Point> Q;
+    static Point start, end;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         while (true) {
             flag = false;
-            Q = new LinkedList<>();
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            if(!st.hasMoreTokens())
+                st = new StringTokenizer(br.readLine());
 
-            h = sc.nextInt();
-            n = sc.nextInt();
-            m = sc.nextInt();
+            h = Integer.parseInt(st.nextToken());
+            n = Integer.parseInt(st.nextToken());
+            m = Integer.parseInt(st.nextToken());
             if (h == 0 && n == 0 && m == 0) {
                 break;
             }
             board = new char[h][n][m];
             visited = new boolean[h][n][m];
             cnt = new int[h][n][m];
-            sc.nextLine();
-            for (int height = 0; height < h; height++) {
+
+            for (int z = 0; z < h; z++) {
                 for (int i = 0; i < n; i++) {
-                    String str = sc.nextLine();
-                    if (str.isEmpty()) sc.nextLine();
+                    String str = br.readLine();
+
+                    if(str.equals(""))
+                        str = br.readLine();
+
                     for (int j = 0; j < str.length(); j++) {
                         char ch = str.charAt(j);
-                        board[height][i][j] = ch;
-                        if (ch == 'S') Q.offer(new Point(height, i, j));
+                        if (ch == 'S') {
+                            start = new Point(z, i, j);
+                        }
+                        if (ch == 'E') {
+                            end = new Point(z, i, j);
+                        }
+                        board[z][i][j] = ch;
                     }
                 }
-                sc.nextLine();
             }
-            bfs();
-            if (flag) System.out.println("Escaped in " + answer + " minute(s).");
-            else System.out.println("Trapped!");
+            bfs(start);
+            if(!flag){
+                System.out.println("Trapped!");
+            }
         }
     }
 
-    static void bfs() {
+    static void bfs(Point point) {
+        visited[point.z][point.x][point.y] = true;
+        Q = new LinkedList<>();
+        Q.offer(point);
         while (!Q.isEmpty()) {
             Point tmp = Q.poll();
-            visited[tmp.z][tmp.x][tmp.y] = true;
-
             if (board[tmp.z][tmp.x][tmp.y] == 'E') {
-                answer = cnt[tmp.z][tmp.x][tmp.y];
+                System.out.println("Escaped in " + cnt[tmp.z][tmp.x][tmp.y] + " minute(s).");
                 flag = true;
                 return;
             }
             for (int i = 0; i < 6; i++) {
-                int nh = tmp.z + dh[i];
+                int nz = tmp.z + dh[i];
                 int nx = tmp.x + dx[i];
                 int ny = tmp.y + dy[i];
-                if (nx >= 0 && nx < n && ny >= 0 && ny < m && nh >= 0 && nh < h
-                        && board[nh][nx][ny] != '#' && !visited[nh][nx][ny]) {
-                    cnt[nh][nx][ny] = cnt[tmp.z][tmp.x][tmp.y] + 1;
-                    Q.offer(new Point(nh, nx, ny));
+
+                if (nz >= 0 && nz < h && nx >= 0 && nx < n && ny >= 0 && ny < m && !visited[nz][nx][ny]){
+                    if (board[nz][nx][ny] != '#'){
+                        cnt[nz][nx][ny] = cnt[tmp.z][tmp.x][tmp.y] +1;
+                        visited[nz][nx][ny] = true;
+                        Q.offer(new Point(nz, nx, ny));
+                    }
                 }
             }
         }
