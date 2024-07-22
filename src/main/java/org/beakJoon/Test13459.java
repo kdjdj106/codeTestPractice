@@ -41,12 +41,49 @@ public class Test13459 {
     static int n, m;
     static char[][] board;
     static boolean[][][][] visit;
+    static Queue<Marble> Q;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
+
         board = new char[n][m];
         visit = new boolean[n][m][n][m];
+        int redX = 0, redY = 0, blueX = 0, blueY = 0;
+        for (int i = 0; i < n; i++) {
+            String str = br.readLine();
+            for (int j = 0; j < str.length(); j++) {
+                char ch = str.charAt(j);
+                board[i][j] = ch;
+                if (ch == 'R') {
+                    redX = i;
+                    redY = j;
+                }
+                if (ch == 'B') {
+                    blueX = i;
+                    blueY = j;
+                }
+            }
+        }
+        Q = new LinkedList<>();
+        Q.offer()
+        System.out.println(bfs());
+    }
+    public static int bfs(){
+
+
+        return 0;
+    }
+
+    public static class Marble {
+        int redX, redY, blueX, blueY;
+
+        public Marble(int redX, int redY, int blueX, int blueY) {
+            this.redX = redX;
+            this.redY = redY;
+            this.blueX = blueX;
+            this.blueY = blueY;
+        }
     }
 }
