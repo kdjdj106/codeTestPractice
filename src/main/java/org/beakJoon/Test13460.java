@@ -37,7 +37,7 @@ import java.util.StringTokenizer;
 예제 출력 1
 1
 * */
-public class Test13459 {
+public class Test13460 {
     static int n, m;
     static char[][] board;
     static int[] dx = {1, 0, -1, 0};
@@ -76,7 +76,7 @@ public class Test13459 {
     public static int bfs(){
         while (!Q.isEmpty()){
             Position tmp = Q.poll();
-            if (tmp.cnt > 10) return 0;
+            if (tmp.cnt > 10) return -1;
 
             for (int i = 0; i < 4; i++) {
                 Marble redMarble = move(tmp.redX, tmp.redY, i, 0);
@@ -91,7 +91,7 @@ public class Test13459 {
 
                 if (board[nBlueX][nBlueY] == 'O') continue;
                 if (board[nRedX][nRedY] == 'O'){
-                    return 1;
+                    return tmp.cnt;
                 }
 
                 if (nRedX == nBlueX && nRedY == nBlueY){
@@ -114,9 +114,9 @@ public class Test13459 {
     }
     public static Marble move(int x, int y, int i, int dis){
         while (board[x+dx[i]][y+dy[i]] != '#' && board[x][y] != 'O'){
-                x += dx[i];
-                y += dy[i];
-                dis +=1;
+            x += dx[i];
+            y += dy[i];
+            dis +=1;
         }
 
         // 밑 코드를 써도 상관없음 위 코드를 풀어놓은것 뿐
