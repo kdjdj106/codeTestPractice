@@ -47,8 +47,10 @@ public class Test12851 {
     }
 
     static void bfs(int time) {
+        int checkTime = time;
         while (!Q.isEmpty()) {
             Position tmp = Q.poll();
+
             if (tmp.x == m) {
                 int cnt = 1;
                 System.out.println(tmp.time);
@@ -73,12 +75,16 @@ public class Test12851 {
                     Q.offer(new Position(i, tmp.time+1));
                 }
             }
-            for (int i : list){
-                if (i >= 0 && i <= 100000){
-                    visit[i] = true;
-                }
+            if (checkTime < tmp.time){
+                for (int i : list){
+                    if (i >= 0 && i <= 100000 ){
+                        visit[i] = true;
+                    }
 
+                }
+                checkTime = tmp.time;
             }
+
         }
     }
 
