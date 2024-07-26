@@ -30,65 +30,45 @@ import java.util.StringTokenizer;
 * */
 public class Test12851 {
     static int n, m;
-    static boolean[] visit;
-    static Queue<Position> Q;
+    static boolean[] visit = new boolean[100001];
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        visit = new boolean[100001];
-        Q = new LinkedList<>();
 
+        Queue<Position> Q = new LinkedList<>();
         Q.offer(new Position(n, 0));
-        visit[n] = true;
-        bfs(0);
-    }
-
-    static void bfs(int time) {
-        int checkTime = time;
+        int checkTime = -1;
+        int answer = 0;
+        boolean flag = false;
         while (!Q.isEmpty()) {
-            Position tmp = Q.poll();
-
-            if (tmp.x == m) {
-                int cnt = 1;
-                System.out.println(tmp.time);
-                for (Position p : Q) {
-                    int i = p.x;
-                    if (i == m ) {
-                        cnt += 1;
-                    }
+            int size = Q.size();
+            for (int t = 0; t < size; t++) {
+                Position tmp = Q.poll();
+                visit[tmp.x] = true;
+                if (tmp.x == m){
+                    checkTime = tmp.time;
+                    answer++;
+                    flag = true;
                 }
-                System.out.println(cnt);
-                return;
-            }
-            ArrayList<Integer> list = new ArrayList<>();
-            int a = tmp.x - 1;
-            int b = tmp.x + 1;
-            int c = tmp.x * 2;
-            list.add(a);
-            list.add(b);
-            list.add(c);
-            for (int i : list) {
-                if (i >= 0 && i <= 100000 && !visit[i]) {
-                    Q.offer(new Position(i, tmp.time+1));
-                }
-            }
-            if (checkTime < tmp.time){
-                for (int i : list){
-                    if (i >= 0 && i <= 100000 ){
-                        visit[i] = true;
-                    }
+                int n1 = tmp.x - 1;
+                int n2 = tmp.x + 1;
+                int n3 = tmp.x * 2;
 
-                }
-                checkTime = tmp.time;
+                if (n1 >= 0 && !visit[n1]) Q.offer(new Position(n1, tmp.time+1));
+                if (n2 <= 100000 && !visit[n2]) Q.offer(new Position(n2, tmp.time+1));
+                if (n3 <= 100000 && !visit[n3]) Q.offer(new Position(n3, tmp.time+1));
             }
-
+            if (flag) break;
         }
+        System.out.println(checkTime);
+        System.out.println(answer);
     }
 
-    static class Position {
+    public static class Position {
         int x, time;
 
         public Position(int x, int time) {
