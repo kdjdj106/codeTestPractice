@@ -1,63 +1,45 @@
 package org.beakJoon;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.Scanner;
 
 public class Test17090 {
-    static int n, m;
-    static int answer = 0;
-    static int[] dx = {1, 0, -1, 0};
-    static int[] dy = {0, 1, 0, -1};
-    static char[][] board;
-    static boolean[][] visit;
-    static boolean[][] dp;
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-
-        board = new char[n][m];
-        visit = new boolean[n][m];
-        dp = new boolean[n][m];
-        for (int i = 0; i < n; i++) {
-            String str = br.readLine();
-            for (int j = 0; j < m; j++) {
-                board[i][j] = str.charAt(j);
+    static char[][] map;
+    static boolean[][] visited;
+    static int n;
+    static int m;
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
+        map = new char[n][m];
+        visited = new boolean[n][m];
+        for(int i = 0; i < n; i++) map[i] = sc.next().toCharArray();
+        int count = 0;
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < m; j++){
+                if (dfs(i,j))count++;
             }
         }
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                dfs(i, j);
-            }
-        }
+        System.out.println(count);
     }
-    static void dfs(int x, int y){
 
-        if (0>x|| 0>y ||y>=m ||x>=n){
-            answer++;
-            return;
-        }
+    public static boolean dfs(int y,int x){
+        boolean result = false;
+        if (0>x|| 0>y ||y>=n ||x>=m)return true;
 
+        if (map[y][x]=='T')return true;
+        else if (map[y][x]=='F')return false;
 
-        if (visit[y][x])return;
-        visit[x][y] = true;
-        char ch = board[x][y];
-        if (ch == 'U'){
-            dfs(x -1, y);
-        }
-        else if (ch == 'R'){
-            dfs(x, y+1);
-        }
-        else if (ch == 'D'){
-            dfs(x + 1, y);
-        }
-        else if (ch == 'L'){
-            dfs(x, y-1);
-        }
+        if (visited[y][x])return false;
 
+        visited[y][x] =true;
+
+        if (map[y][x]=='U')result = dfs(y-1,x);
+        else if (map[y][x]=='R') result = dfs(y,x+1);
+        else if (map[y][x]=='L') result = dfs(y,x-1);
+        else if (map[y][x]=='D') result = dfs(y+1,x);
+
+        map[y][x] = result?'T':'F';
+        return result;
     }
 }
-// todo 아직 완료 못함 다시 고민!
