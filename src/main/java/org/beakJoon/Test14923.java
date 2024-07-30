@@ -22,11 +22,11 @@ public class Test14923 {
         m = Integer.parseInt(st.nextToken());
         board = new int[n][m];
         st = new StringTokenizer(br.readLine());
-        Hx = Integer.parseInt(st.nextToken());
-        Hy = Integer.parseInt(st.nextToken());
+        Hx = Integer.parseInt(st.nextToken())-1;
+        Hy = Integer.parseInt(st.nextToken())-1;
         st = new StringTokenizer(br.readLine());
-        Ex = Integer.parseInt(st.nextToken());
-        Ey = Integer.parseInt(st.nextToken());
+        Ex = Integer.parseInt(st.nextToken())-1;
+        Ey = Integer.parseInt(st.nextToken())-1;
 
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
@@ -39,6 +39,9 @@ public class Test14923 {
         visit=  new boolean[2][n][m];
         visit[0][Hx][Hy] = true;
         bfs();
+        if (answer == Integer.MAX_VALUE ) System.out.println(-1);
+        else
+        System.out.println(answer+1);
 
     }
     static void bfs(){
@@ -50,12 +53,18 @@ public class Test14923 {
                 if(nx >= 0 && nx < n && ny >= 0 && ny < m){
                     if ( board[nx][ny] == 1){
                         if (tmp.cnt == 0 && !visit[1][nx][ny]){
-                            if (nx == Ex && ny == Ey){answer = tmp.time; return;}
+                            if (nx == Ex && ny == Ey){
+                                answer = tmp.time; return;}
                             visit[1][nx][ny] = true;
                             Q.offer(new Position(nx, ny, tmp.cnt +1, tmp.time+1));
                         }
                     }else {
-                        if
+                        if(!visit[tmp.cnt][nx][ny]){
+                            if (nx == Ex && ny == Ey){
+                                answer = tmp.time; return;}
+                            visit[tmp.cnt][nx][ny] = true;
+                            Q.offer(new Position(nx, ny, tmp.cnt, tmp.time+1));
+                        }
                     }
 
                 }
