@@ -51,6 +51,7 @@ public class Test16234 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
+
         lNum = Integer.parseInt(st.nextToken());
         rNum = Integer.parseInt(st.nextToken());
         board = new int[n][n];
@@ -60,32 +61,83 @@ public class Test16234 {
                 board[i][j] = Integer.parseInt(st.nextToken());
             }
         }
+
+        // 반복문 시작
         while (true){
+            // 기본값으로 flag를 flase로 둔다.
+            // 인구를 분배하지 못한다면  false 이기 때문에 나중에 반복문에서 빠져나오게 된다.
             flag = false;
+
+            // 한번 반복문을 할때마다 visit배열을 초기화 해준다.
             visit = new boolean[n][n];
+
+
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
+
+                    // 이전단계에서 방문하지 않았다면 bfs로 연합을 찾는다.
                     if (!visit[i][j]){
                         int sum = bfs(i, j);
+                        if (list.size() >1){
+                            // 배열을 평균값내서 계산  avg = sum / list.size()
+                            changeBoardNum(sum);
+                            flag = true;
+                        }
                     }
-                    if (list.size() >1){
-                        // 배열을 평균값내서 계산  avg = sum / list.size()
-                        flag = true;
-                    }
-
                 }
             }
             if (!flag) break;
             answer++;
         }
+        System.out.println(answer);
     }
     static int bfs(int x, int y){
+        // 들어온 값도 sum에 포함시켜야 하므로 이렇게 초기화한다.
+        int sum =board[x][y];
+
+        // 현대배열 위치와 연합이 되는 값을 담을 list를 만든다.
         list = new ArrayList<>();
+
+        // 마찬가지로 현재배열또한 연합에 포함되므로 list에 넣어준다.
+        list.add(new Node(x, y));
+        Q = new LinkedList<>();
+
+        //bfs를 시작하기 위해서 Queue에 현재 위치 값을 넣어준다.
         Q.add(new Node(x, y));
         visit[x][y] = true;
+
         while (!Q.isEmpty()){
             Node tmp = Q.poll();
+            for (int i = 0; i < 4; i++) {
+                int nx = tmp.x + dx[i];
+                int ny = tmp.y + dy[i];
+                // 다음 값이 방문되어있지 않고 올바른 값이라면
+                if (nx >= 0 && nx < n && ny >= 0 && ny < n && !visit[nx][ny]){
 
+                    // 현재 위치와 다음 값의 차이를 구한다.
+                    int diff = Math.abs(board[tmp.x][tmp.y] - board[nx][ny]);
+
+                    // 그 차이 값이 우리가 설정한 범위안에 속한다면 연합조건에 맞기 때문에
+                    // Queue, list에 넣고 그 값을 sum에 더한다.
+                    // sum은 연합의 총합이 되며 bfs가 끝난후 평균값을 내는데 사용된다.
+                    if (lNum <= diff && rNum >= diff){
+                        Q.offer(new Node(nx, ny));
+                        list.add(new Node(nx, ny));
+                        sum += board[nx][ny];
+                        visit[nx][ny] = true;
+                    }
+                }
+
+            }
+        }
+        return sum;
+    }
+
+    // 리스트 사이즈만큰  sum을 나눠 평균값을 배분하는 함수이다.
+    static void changeBoardNum(int sum){
+        int avg = sum/ list.size();
+        for (Node node : list){
+            board[node.x][node.y] = avg;
         }
     }
     static class Node{

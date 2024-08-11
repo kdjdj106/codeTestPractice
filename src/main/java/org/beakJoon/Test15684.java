@@ -1,9 +1,6 @@
 package org.beakJoon;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 /*
 입력
@@ -35,19 +32,28 @@ public class Test15684 {
         n = sc.nextInt();
         m = sc.nextInt();
         h = sc.nextInt();
+
+        // 가로선의 개수가 없다면 바로 정답이므로 0 출력
         if (m == 0){
             System.out.println(0);
             System.exit(0);
         }
+
+        // 편하게 코드를 짜기위해 보드를 범위를 +1씩 해준다.
         board = new int[h + 1][n + 1];
         for (int i = 0; i < m; i++) {
             int x = sc.nextInt();
             int y = sc.nextInt();
+
+            // 가로선을 놓을때 왼쪽에는 1, 오른쪽에는 -1을 넣어 가로선이 있다는 것을 구분해준다.
             board[x][y] = 1;
             board[x][y + 1] = -1;
         }
 
+        // 가로줄이 0~3개까지만 놓을 수 있고 그 이상은 -1을 출력하기 때문에
+        // 0~3 만 검사한다.
         for (int i = 0; i <= 3; i++) {
+            // answer = 가로줄 갯수
             answer =i;
             dfs(1, 0);
             if (check) break;
@@ -55,23 +61,39 @@ public class Test15684 {
         System.out.println((check) ? answer : -1);
     }
     public static void dfs(int x, int cnt){
+        // check가 참이면 리턴
         if (check) return;
+
+        // dfs에 들어오기전 가로줄 개수를 예측하고 들어온 수와 cnt가 일치한다면
+        // possible한지 검사한다. 맞으면 check = true; 해주고 틀리다면 다시 가로줄 개수를 +1 예측하고 다시 dfs를 돌린다.
         if (answer == cnt){
             if (possible()) check = true;
             return;
         }
+
+        // 사다리에 가로줄을 놓는다.
         for (int i = x; i < h+1; i++) {
             for (int j = 1; j < n; j++) {
+                // 가로줄이 놓여 있지 않다면
                 if (board[i][j] == 0 && board[i][j+1] == 0){
+
+                    // 가로줄 표시를 해준다.
                     board[i][j] = 1;
                     board[i][j+1] = -1;
+
+                    // 가로줄 표시를 하고 cnt를 +1증가 시킨 후 dfs를 다시 돌닌다.
                     dfs(x, cnt+1);
+
+                    // 가로줄을 다시 원복시킨다.
                     board[i][j] = board[i][j+1] = 0;
                 }
             }
         }
     }
+
+    // 조건에 맞는지 판별하는 함수이다.
     public static boolean possible(){
+        // 선을 내려서 끝까지 갈경우 값이 동일하면 조건 성립, 다르다면 조건이 성립되지 않음으로 false 반환
         for (int i = 1; i <= n; i++) {
             int x =1;
             int y =i;

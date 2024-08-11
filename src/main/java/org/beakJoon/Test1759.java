@@ -68,6 +68,7 @@ public class Test1759 {
         for (int i = 0; i < n; i++) {
             list.add(sc.next().charAt(0));
         }
+        // 받은 문자열을 오름차 순으로 정렬한다.
         Collections.sort(list);
         arr = new char[n];
         for (int i = 0; i < n; i++) {
@@ -76,6 +77,8 @@ public class Test1759 {
         combi=new char[m];
         DFS(0, 0);
     }
+
+    // 모음과 자음의 개수가 조건에 맞는지 검사하는 함수이다.
     public static boolean isValid() {
         int mo = 0;
         int ja = 0;

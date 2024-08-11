@@ -38,6 +38,8 @@ public class Test2583 {
         m = sc.nextInt();
         board = new int[n][m];
         c = sc.nextInt();
+
+        // 입력받은 영역을 보드에 표시한다.
         for (int q = 0; q < c; q++) {
             int y1 = sc.nextInt();
             int x1 = sc.nextInt();
@@ -49,6 +51,7 @@ public class Test2583 {
                 }
             }
         }
+        // 영역이 아닌 부분을 발견하면 dfs하여 넓이를 구한다.
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (board[i][j] == 0) {
@@ -58,17 +61,25 @@ public class Test2583 {
                 }
             }
         }
+
+        // dfs한 넓이를 list에 담아 오름차순으로 정렬한다.
         Collections.sort(list);
         System.out.println(list.size());
         for (Integer integer : list) {
             System.out.print(integer+" ");
         }
     }
+
+    //로직 시작
     public static void dfs(int i, int j) {
+        // 이미 탐색한 영역을 표기한다.
         board[i][j] = 1;
+
+
         for (int k = 0; k < 4; k++) {
             int nx = i + dx[k];
             int ny = j + dy[k];
+            // 탐색한 영역이 아니고 올바른 범위안에 있다면 dfs한다.
             if (nx>= 0 && nx < n && ny >= 0 && ny < m && board[nx][ny] == 0) {
                 board[nx][ny] = 1;
                 area++;

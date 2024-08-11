@@ -39,10 +39,15 @@ public class Test2667 {
     }
 
     public static void dfs(int x, int y){
+        // 이미 탐색한 곳은 방문처리해준다.
         board[x][y] = 0;
+
+
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
+
+            // 올바른 범위안에 있고 다음배열이 1이라면 dfs
             if (nx >= 0 && nx < n && ny >= 0 && ny < n && board[nx][ny] == 1) {
                 board[nx][ny] = 0;
                 area++;

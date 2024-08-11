@@ -1,5 +1,7 @@
 package org.example.chapter1_string;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /*1. 문자 찾기
@@ -37,6 +39,8 @@ public class FindString {
         }
         System.out.println(cnt);
 
-
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(1);
+        System.out.println(list.size());
     }
 }

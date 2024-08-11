@@ -25,6 +25,8 @@ public class Test1987 {
     static int[] dy = {1, 0, -1, 0};
     static int[] dx = {0, 1, 0, -1};
     static char[][] board;
+
+    // 알파벳은 26자리 이기 때문에 알파벳을 체크해줄 배열을 담는다.
     static boolean[] check = new boolean[26];
     static int n, m, cnt;
     static int answer=0;
@@ -51,9 +53,12 @@ public class Test1987 {
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
+            // 다음 칸이 올바른 범위이고 알파벳 체크배열에서 체크가 안되있다면
             if (nx >= 0 && nx < n && ny >= 0 && ny < m && !check[board[nx][ny] - 'A']) {
+                // 체크하고 dfs한다.
                 check[board[nx][ny] - 'A'] = true;
                 DFS(nx, ny, cnt + 1);
+                // dfs에서 나온후 체크를 해체한다.
                 check[board[nx][ny] - 'A'] = false;
             }
         }
