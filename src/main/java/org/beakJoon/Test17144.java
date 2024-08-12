@@ -53,17 +53,19 @@ public class Test17144 {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (board[i][j] == -1) {
-                    tmpBoard[i][j] = -i;
+                    tmpBoard[i][j] = -1;
                     continue;
                 }
-                tmpBoard[i][j] = board[i][j];
+                if (board[i][j] == 0) continue;
+
+                tmpBoard[i][j] += board[i][j];
                 for (int k = 0; k < 4; k++) {
                     int nx = i + dx[k];
                     int ny = j + dy[k];
 
-                    if (nx >= 0 && nx < n && ny >= 0 && ny < m) {
-                        tmpBoard[nx][ny] += board[nx][ny] / 5;
-                        tmpBoard[i][j] -= board[i][j] / 5;
+                    if (nx >= 0 && nx < n && ny >= 0 && ny < m && board[nx][ny] != -1) {
+                        tmpBoard[nx][ny] += (board[i][j] / 5);
+                        tmpBoard[i][j] -= (board[i][j] / 5);
                     }
                 }
             }
@@ -71,8 +73,27 @@ public class Test17144 {
     }
 
     static void moveDust() {
-        // 역으로 공기청정기로 들어오는 방향부터 로직을 돌릳다.
+        // 역으로 공기청정기로 들어오는 방향부터 로직을 돌린다.
         // 그래야만 먼지가 이동했을 때 한칸이 비게 되고 그 빈자리로 먼지가 이동하게 된다.
 
+        // 왼쪽위
+        for (int i = 0; i < airFresherUp -1; i++) {
+            board[i+1][0] = board[i][0];
+        }
+
+        // 상단
+        for (int i = m; i > 0 ; i--) {
+            board[0][i-1] = board[0][i];
+        }
+        // 오른쪽 위
+        for (int i = airFresherUp; i >0 ; i--) {
+            board[i-1][m] = board[i][m];
+        }
+        // 하단
+        for (int i = 0; i < m - 1; i++) {
+            board[airFresherUp][i+1] = board[airFresherUp][i];
+        }
+
+        board[airFresherUp][0] =0;
     }
 }
