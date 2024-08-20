@@ -4,7 +4,9 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
-
+/*
+* 석유 시추
+* */
 public class Test250136 {
     static int n, m;
     static int[][] board;
