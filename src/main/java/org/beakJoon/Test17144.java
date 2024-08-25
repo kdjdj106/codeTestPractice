@@ -39,6 +39,8 @@ public class Test17144 {
         }
 
         for (int i = 0; i < time; i++) {
+            // board가 static으로 걸려있기 때문에 계산 해줄 tmp보드를 만들었다.
+            // 매 초 계산 해야되기 때문에 매초 초기화를 해준다.
             tmpBoard = new int[n][m];
             // 미세먼지 확산
             diffusionDust();
@@ -55,23 +57,34 @@ public class Test17144 {
         System.out.println(answer);
     }
 
+    // 미세먼지 확산 함수
     static void diffusionDust() {
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
+                // 공기 청정기는 찾으면 continue해준다.
                 if (board[i][j] == -1) {
                     tmpBoard[i][j] = -1;
                     continue;
                 }
+
+                // 보드의 먼지를 옮겨담는다.
                 tmpBoard[i][j] += board[i][j];
+
+                // 4방향으로 먼지를 확산시킨다.
                 for (int k = 0; k < 4; k++) {
                     int nx = i + dx[k];
                     int ny = j + dy[k];
 
+                    // 공기청정기거나 범위에 맞지 않는다면 생략
                     if (ny < 0 || ny >= m || nx < 0 || nx >= n) continue;
                     if (board[nx][ny] == -1) continue;
 
+
+                    //확산될 tmpBoard에 board의 먼지 1/5를 넣어주고
                     tmpBoard[nx][ny] += (board[i][j] / 5);
+
+                    //기존 위치에서는 board의 1/5를 빼준다.
                     tmpBoard[i][j] -= (board[i][j] / 5);
                 }
             }
@@ -99,6 +112,8 @@ public class Test17144 {
             board[airFresherUp - 1][i] = board[airFresherUp - 1][i - 1];
         }
 
+        // 공기 청정기 위치에는 흡입구는 -1
+        // 나가는 쪽은 0
         board[airFresherUp - 1][0] = -1;
         board[airFresherUp - 1][1] = 0;
 
@@ -125,6 +140,8 @@ public class Test17144 {
             board[airFresherDown - 1][i] = board[airFresherDown - 1][i - 1];
         }
 
+        // 공기 청정기 위치에는 흡입구는 -1
+        // 나가는 쪽은 0
         board[airFresherDown - 1][0] = -1;
         board[airFresherDown - 1][1] = 0;
     }

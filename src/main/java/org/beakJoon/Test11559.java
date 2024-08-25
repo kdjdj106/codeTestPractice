@@ -14,6 +14,8 @@ public class Test11559 {
     static int[] dx = {1, 0, -1, 0};
     static int[] dy = {0, 1, 0, -1};
     static Queue<Point> Q;
+
+    // 모여있는 뿌요뿌요가 몇개인지 세기위한 리스트
     static ArrayList<int[]> list;
     static boolean flag = true;
     public static void main(String[] args) throws IOException {
@@ -27,6 +29,8 @@ public class Test11559 {
                 board[i][j]  = str.charAt(j);
             }
         }
+        // 무한으로 돌리되
+        // 더이상 터질게 없으면 빠져나온다.
         while (true){
             flag = false;
             bfs();
@@ -39,6 +43,8 @@ public class Test11559 {
     static void bfs(){
         Q = new LinkedList<>();
 
+
+        // 칸은 정해져있기 때문에 이렇게 만든다.
         boolean[][] visit = new boolean[12][6];
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 6; j++) {
@@ -64,6 +70,8 @@ public class Test11559 {
                             }
                         }
                     }
+
+                    // 리스트에 4개 이상 모이면 뿌요뿌요를 터트려준다.
                     if (list.size() >= 4){
                         for (int[] arr : list){
                             int nx = arr[0];
