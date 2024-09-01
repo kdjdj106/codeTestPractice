@@ -63,68 +63,69 @@ public class Test176962 {
         Collections.sort(list);
 
 
-        for (int i = 0; i < list.size() - 1; i++) {
+        for (int i = 0; i < list.size()-1; i++) {
             // 대기 리스트에 아무것도 없다면 다음 과목을 비교
             if (waitList.isEmpty()) {
                 // 현재과목과 다음과목을 비교
                 Schedule tmp = list.get(i);
-                int timeGap = list.get(i + 1).startTime - tmp.startTime;
+                int diffTime = list.get(i + 1).startTime - tmp.startTime;
                 // 걸리는 시간이 두과목의 시작 시간의 차이보다 같거나 작다면
-                if (timeGap >= tmp.time) {
+                if (diffTime >= tmp.time) {
                     // 끝난 리스트에 저장
                     endList.add(tmp.subject);
                 } else {
                     //걸리는 시간이 시작 시간의 차이보다 크다면
                     // 걸린 시간을 빼주고 대기 리스트에 저장
-                    tmp.time -= timeGap;
+                    tmp.time -= diffTime;
                     waitList.push(tmp);
                 }
             }
             // 대기 리스트에 스케줄이 있다면 로직 시작
             else {
                 Schedule tmp = list.get(i);
-                int timeGap = list.get(i + 1).startTime - tmp.startTime;
+                int diffTime = list.get(i + 1).startTime - tmp.startTime;
 
 
-                // timeGap이 현재과목의 실행시간 보다 많다면 현재 실행시간 만큼 timeGap에서 빼주고
+
+
+
+                // diffTime이 현재과목의 실행시간 보다 많다면 현재 실행시간 만큼 diffTime에서 빼주고
                 // 현재과목을 종료리스트에 저장
-                if (timeGap >= tmp.time) {
+                if (diffTime >= tmp.time) {
                     endList.add(tmp.subject);
-                    timeGap -= tmp.time;
+                    diffTime -= tmp.time;
 
-                    // 그래도 timeGap이 남아있고 대기 리스트에 과목이 있다면
-                    // timeGap이 0이되거나 대기리스트가 빌때까지 반복
-                    while (!waitList.isEmpty() && timeGap > 0) {
+                    // 그래도 diff타임이 남아있고 대기 리스트에 과목이 있다면
+                    // diffTime이 0이되거나 대기리스트가 빌때까지 반복
+                    while (!waitList.isEmpty() && diffTime > 0) {
                         Schedule waitSchedule = waitList.pop();
 
-                        // timeGap이 대기과목 실행시간 보다 크면
-                        // timeGap에서 대기과목의 실행시간 만큼 빼주고 종료리스트에 추가.
-                        if (timeGap >= waitSchedule.time) {
+                        // diffTime이 대기과목 실행시간 보다 크면
+                        // diffTime에서 대기과목의 실행시간 만큼 빼주고 종료리스트에 추가.
+                        if (diffTime>= waitSchedule.time) {
                             endList.add(waitSchedule.subject);
-                            timeGap -= waitSchedule.time;
+                            diffTime -= waitSchedule.time;
                         }
-                        // timeGap이 대기과목 실행시간 보다 작으면
-                        else {
-                            waitSchedule.time -= timeGap;
+                        // diffTime이 대기과목 실행시간 보다 작으면
+                        else{
+                            waitSchedule.time -= diffTime;
                             waitList.push(waitSchedule);
-                            timeGap -= waitSchedule.time;
+                            diffTime =0;
+
                         }
                     }
                 }
-                // timeGap이 대기과목의 실행시간 보다 적다면 대기 과목의 실행시간에서 timeGap만큼 빼주고
+                // diffTime이 대기과목의 실행시간 보다 적다면 대기 과목의 실행시간에서 diffTime만큼 빼주고
                 // 다시 대기 리스트에 집어 넣는다.
                 else {
-                    tmp.time -= timeGap;
+                    tmp.time -= diffTime;
                     waitList.push(tmp);
                 }
 
             }
         }
-        // 마지막 과목은 그냥 넣고
-        endList.add(list.get(list.size() - 1).subject);
-
-        // 대기 리스트에 과목이 남아있다면 하나씩 꺼내서 종료리스트에 넣는다.
-        while (!waitList.isEmpty()) {
+        endList.add(list.get(list.size()-1).subject);
+        while (!waitList.isEmpty()){
             endList.add(waitList.pop().subject);
         }
         answer = endList.toArray(new String[endList.size()]);
@@ -148,4 +149,3 @@ public class Test176962 {
         }
     }
 }
-// todo : 해결못함 원인을 모르겠음
