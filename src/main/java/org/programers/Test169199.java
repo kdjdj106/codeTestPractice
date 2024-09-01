@@ -1,7 +1,5 @@
 package org.programers;
 
-import org.beakJoon.Test13459;
-
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -71,19 +69,24 @@ public class Test169199 {
         visit[robot.x][robot.y] = true;
         while (!Q.isEmpty()) {
             Point tmp = Q.poll();
-
+            // 목표지점에 로봇이 있다면 현재 값을 반환
             if (tmp.x == goal.x && tmp.y == goal.y) {
                 return tmp.cnt;
             }
 
+
+            // 상하좌우 이동
             for (int i = 0; i < 4; i++) {
                 int nx = tmp.x;
                 int ny = tmp.y;
 
+                // 장애물을 만나지 않거나 올바른 범위에 있다면 계속 이동한다.
                 while (check(nx, ny) && board[nx][ny] != 'D') {
                     nx += dx[i];
                     ny += dy[i];
                 }
+
+                // 그 전위치로 한칸 이동
                 nx -= dx[i];
                 ny -= dy[i];
 
@@ -95,7 +98,7 @@ public class Test169199 {
         }
         return -1;
     }
-
+    // 올바른 위치인지 검사하는 로직
     public static boolean check(int nx, int ny) {
         if (nx >= 0 && nx < n && ny >= 0 && ny < m) {
             return true;
