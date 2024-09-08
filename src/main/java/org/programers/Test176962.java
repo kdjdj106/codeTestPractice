@@ -107,6 +107,7 @@ public class Test176962 {
                             diffTime -= waitSchedule.time;
                         }
                         // diffTime이 대기과목 실행시간 보다 작으면
+                        // diffTime을 0으로 설정
                         else{
                             waitSchedule.time -= diffTime;
                             waitList.push(waitSchedule);
